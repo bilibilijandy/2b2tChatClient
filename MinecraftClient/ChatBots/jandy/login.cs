@@ -5,13 +5,14 @@ using System.Collections.Generic; // 添加此行
 using System.Linq; // 添加此行
 using MinecraftClient.Scripting;
 using YamlDotNet.Serialization;
+using MinecraftClient.Commands;
 
 namespace MinecraftClient.ChatBots.JandyBot;
 
 public class JLoginBot:ChatBot
 {
     private Random _random = new Random();
-    private XLoginBotConfig _config = new XLoginBotConfig();
+    private JLoginBotConfig _config = new JLoginBotConfig();
     private bool _enteredLock;
 
     private string result;
@@ -20,47 +21,53 @@ public class JLoginBot:ChatBot
     public override void Initialize()
     {
         _enteredLock = false;
-        if (!File.Exists("XLoginConf.yaml"))
+        if (!File.Exists("JLoginConf.yaml"))
         {
             LogToConsole("没有找到配置文件，正在释放....");
             string yaml = YamlHelper.Serialize(_config);
             yaml = "# XotBot @ XTeam\n# 请参阅用户手册来了解如何使用此处\n"+yaml;
-            File.WriteAllText("./XLoginConf.yaml", yaml);
+            File.WriteAllText("./JLoginConf.yaml", yaml);
         }
 
-        _config = YamlHelper.DeserializeFromFile<XLoginBotConfig>("XLoginConf.yaml");
+        _config = YamlHelper.DeserializeFromFile<JLoginBotConfig>("JLoginConf.yaml");
         LogToConsole($"你的默认密码：{_config.DefaultPasswd}");
-        LogToConsole("XLogin模块 @ 0.0.1 已经加载");
+        LogToConsole("JLogin模块 @ 0.0.1 已经加载");
 
+    }
+
+    public override void AfterGameJoined()
+    {
+        if (_enteredLock)
+        {
+            LogToConsole("检测到你成功登录服务器，恭喜");
+            return;
+        }
 
         //随机密码功能
         var random = new Random();
         string filePath = "mm.txt";
+        string oldMM = "oldmm.txt";
         result = GenerateRandomString(random);//新密码
 
         mm = File.ReadAllText(filePath); 
+        LogToConsole($"{mm},{result}");
 
         // 将字符串写入文件
         using (StreamWriter writer = new StreamWriter(filePath, false)) // true表示追加模式
         {
             writer.WriteLine(result);
         }
-        
-        if (_enteredLock)
-        {
-            LogToConsole("检测到你成功登录服务器，恭喜");
-            return;
-        }
-    }
 
-    public override void AfterGameJoined()
-    {
-            
+        using (StreamWriter writer = new StreamWriter(oldMM, true)) // true表示追加模式
+        {
+            writer.WriteLine($"{result}\n");
+        }
 
         SendText($"/login {mm}");
+        LogToConsole($"登录成功,当前密码 {mm} ");
         Thread.Sleep(GetSleepTime());
         SendText($"/cp {mm} {result}");
-        LogToConsole("修改密码成功");
+        LogToConsole($"修改密码成功,当前密码 {result} ,原密码 {mm} ");
         Thread.Sleep(GetSleepTime());
         ChangeSlot(2);
         LogToConsole("切换物品成功");
@@ -120,7 +127,7 @@ public class JLoginBot:ChatBot
 }
 
 [Serializable]
-public class XLoginBotConfig
+public class JLoginBotConfig
 {
     [YamlMember(Alias = "defaultPasswd", ApplyNamingConventions = false)]
     public string DefaultPasswd = "#XBotDefaultPasswd123";
