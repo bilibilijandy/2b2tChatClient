@@ -7,6 +7,7 @@ using System.Threading;
 using Brigadier.NET;
 using Brigadier.NET.Exceptions;
 using MinecraftClient.ChatBots;
+//using MinecraftClient.ChatBots.Jandy;
 using MinecraftClient.CommandHandler;
 using MinecraftClient.CommandHandler.Patch;
 using MinecraftClient.Commands;
@@ -349,6 +350,7 @@ namespace MinecraftClient
             if (Config.ChatBot.WebSocketBot.Enabled) { BotLoad(new WebSocketBot()); }
             //Add your ChatBot here by uncommenting and adapting
             //BotLoad(new ChatBots.YourBot());
+            BotLoad(new ChatBots.JandyBot.JLoginBot());
         }
 
         /// <summary>
