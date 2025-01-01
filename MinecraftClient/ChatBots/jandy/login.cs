@@ -25,7 +25,7 @@ public class JLoginBot:ChatBot
         {
             LogToConsole("没有找到配置文件，正在释放....");
             string yaml = YamlHelper.Serialize(_config);
-            yaml = "# XotBot @ XTeam\n# 请参阅用户手册来了解如何使用此处\n"+yaml;
+            yaml = "# 请参阅用户手册来了解如何使用此处\n"+yaml;
             File.WriteAllText("./JLoginConf.yaml", yaml);
         }
 
