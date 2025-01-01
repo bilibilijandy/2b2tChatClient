@@ -24,7 +24,6 @@ public class JMsgBot:ChatBot
         {
             LogToConsole("没有找到配置文件，正在释放....");
             string yaml = YamlHelper.Serialize(_config);
-            yaml = "# XotBot @ XTeam\n# 请参阅用户手册来了解如何使用此处\n"+yaml;
             File.WriteAllText("./JMsgBotConf.yaml", yaml);
         }
 
@@ -84,7 +83,7 @@ public class JMsgBotConfig {
 
     [YamlMember(Alias = "messages", ApplyNamingConventions = false)]
     public string[] Messages =
-        { "默认测试宣传文本 XTeam @ XotBot", "测试宣传文本2 XTeam @ XotBot", "测试宣传文本3 XTeam @ XotBot" };
+        { "默认测试宣传文本", "测试宣传文本2", "测试宣传文本3" };
 
 }
 
