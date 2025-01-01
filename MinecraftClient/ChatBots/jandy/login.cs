@@ -43,6 +43,10 @@ public class JLoginBot:ChatBot
             return;
         }
 
+
+        SendText($"/login {mm}");
+        LogToConsole($"登录成功,当前密码 {mm} ");
+
         //随机密码功能
         var random = new Random();
         string filePath = "mm.txt";
@@ -63,8 +67,6 @@ public class JLoginBot:ChatBot
             writer.WriteLine($"{result}\n");
         }
 
-        SendText($"/login {mm}");
-        LogToConsole($"登录成功,当前密码 {mm} ");
         Thread.Sleep(GetSleepTime());
         SendText($"/cp {mm} {result}");
         LogToConsole($"修改密码成功,当前密码 {result} ,原密码 {mm} ");
