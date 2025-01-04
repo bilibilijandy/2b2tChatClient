@@ -17,6 +17,8 @@ public class JLoginBot:ChatBot
 
     private string result;
     private string mm;
+    private string filePath = "mm.txt";
+    private string oldMM = "oldmm.txt";
 
     public override void Initialize()
     {
@@ -43,16 +45,10 @@ public class JLoginBot:ChatBot
             return;
         }
 
-
-        SendText($"/login {mm}");
-        LogToConsole($"登录成功,当前密码 {mm} ");
-
+        
         //随机密码功能
         var random = new Random();
-        string filePath = "mm.txt";
-        string oldMM = "oldmm.txt";
         result = GenerateRandomString(random);//新密码
-
         mm = File.ReadAllText(filePath); 
         LogToConsole($"{mm},{result}");
 
@@ -66,6 +62,10 @@ public class JLoginBot:ChatBot
         {
             writer.WriteLine($"{result}\n");
         }
+
+
+        SendText($"/login {mm}");
+        LogToConsole($"登录成功,当前密码 {mm} ");
 
         Thread.Sleep(GetSleepTime());
         SendText($"/cp {mm} {result}");
