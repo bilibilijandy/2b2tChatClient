@@ -352,6 +352,7 @@ namespace MinecraftClient
             //BotLoad(new ChatBots.YourBot());
             BotLoad(new ChatBots.JandyBot.JLoginBot());
             BotLoad(new ChatBots.JandyBot.JMsgBot());
+            BotLoad(new ChatBots.JandyBot.JCommandBot());
         }
 
         /// <summary>
