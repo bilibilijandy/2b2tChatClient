@@ -46,7 +46,13 @@ public class JCommandBot:ChatBot
             }
             else if (IsPrivateMessage(text, ref message, ref sender))
             {
-
+                Match match = Regex.Match(message, @"[!！](.*)");
+                if (match.Success)
+                {
+                    string comm = match.Groups[1].Value;
+                    string parameters = match.Groups[2].Value;
+                    age = parameters.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                }
             }
         }
 
@@ -63,7 +69,7 @@ public class JCommandBot:ChatBot
                 SendText(parameters[0]);
                 break;
             case "stat":
-                SendText("当前服务器版本:1.20.4；客户端版本:1.20.4");
+                SendText("当前服务器版本:1.20.4；客户端版本:1.20.4,已加载模块：loginv1.0;msgv1.0;commandv1.1。");
                 break;
         }
     }
