@@ -29,8 +29,9 @@ public class JCommandBot : ChatBot
 
     public override void GetText(string text)
     {
-        Match match = Regex.Match(text, @"[^\w]*[!！](\w+)\s*(.*)");
-            if (match.Success)
+        text=GetVerbatim(text);//去除颜色代码
+        Match match = Regex.Match(text, @"[^\w]*[!！](\w+)\s*(.*)");//匹配命令
+        if (match.Success)//匹配成功
             {
                 string comm = match.Groups[1].Value;
                 string parameters = match.Groups[2].Value;
@@ -41,16 +42,22 @@ public class JCommandBot : ChatBot
 
     public void commands(string command, List<string> parameters)
     {
+        /**
+         * 命令列表
+         * help 帮助
+         * echo 回显
+         * stat 状态
+         */
         LogToConsole("command: " + command);
         switch (command)
         {
             case "help":
-                SendText("帮助");
+                SendText(cleanText("帮助"));
                 break;
             case "echo":
                 if (parameters.Count > 0)
                 {
-                    SendText(parameters[0]);
+                    SendText(cleanText(parameters[0]));
                 }
                 else
                 {
@@ -58,11 +65,20 @@ public class JCommandBot : ChatBot
                 }
                 break;
             case "stat":
-                SendText("当前服务器版本:1.20.4；客户端版本:1.20.4,已加载模块：loginv1.0;msgv1.0;commandv1.1。");
+                SendText(cleanText("当前服务器版本:1.20.4；客户端版本:1.20.4,已加载模块：loginv1.0;msgv1.0;commandv1.5。"));
                 break;
-            default:
-                SendText("未知命令");
+            case "admin":
+                SendText(cleanText("管理员列表：bilibili_jandy;jandy的2b2t;jandy的2b2t号"));
                 break;
         }
     }
+
+    public string cleanText(string text)
+    {
+        text = text.Replace("§", "");
+        text = text.Replace("/", "");
+        text = GetVerbatim(text);
+        return text;
+    }
+
 }
