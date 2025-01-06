@@ -42,6 +42,7 @@ public class JLoginBot:ChatBot
         if (_enteredLock)
         {
             LogToConsole("检测到你成功登录服务器，恭喜");
+            _enteredLock = false;
             return;
         }
 
