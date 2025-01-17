@@ -72,7 +72,7 @@ public class JLoginBot:ChatBot
         SendText($"/cp {mm} {result}");
         LogToConsole($"修改密码成功,当前密码 {result} ,原密码 {mm} ");
         Thread.Sleep(GetSleepTime());
-        ChangeSlot(2);
+        ChangeSlot(6);
         LogToConsole("切换物品成功");
         Thread.Sleep(GetSleepTime());
         UseItemInHand();
